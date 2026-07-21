@@ -1,0 +1,24 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Continue with Google — Pixeza</title>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+  <div class="card">
+    <div class="brand">
+      <div class="brand-icon">🐾</div>
+      <div class="brand-name">Pixeza</div>
+    </div>
+    <h1>Continue with Google</h1>
+    <p class="subtitle">You're about to sign in using your Google account.</p>
+
+    <form method="POST">
+      {% csrf_token %}
+      <button type="submit" class="btn-primary">Continue</button>
+    </form>
+  </div>
+</body>
+</html>

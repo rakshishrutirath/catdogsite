@@ -1,0 +1,37 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Log In — Pixeza</title>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+  <div class="card">
+    <div class="brand">
+      <div class="brand-icon">🐾</div>
+      <div class="brand-name">Pixeza</div>
+    </div>
+
+    <h1>Welcome back</h1>
+    <p class="subtitle">Log in to detect cats and dogs instantly.</p>
+
+    <form method="POST" action="{% url 'account_login' %}">
+      {% csrf_token %}
+      <label>Email</label>
+      <input type="email" name="login" required>
+      <label>Password</label>
+      <input type="password" name="password" required>
+      <button type="submit" class="btn-primary">Log In</button>
+    </form>
+
+    <div class="divider">OR</div>
+
+    <a href="{% url 'google_login' %}" class="btn-google">
+      <span>🔵</span> Continue with Google
+    </a>
+
+    <p class="footer-note">Don't have an account? <a href="{% url 'account_signup' %}">Sign up</a></p>
+  </div>
+</body>
+</html>

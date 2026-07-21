@@ -1,0 +1,28 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Login Cancelled — Pixeza</title>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+  <div class="card" style="max-width: 460px;">
+    <div class="brand">
+      <div class="brand-icon">🐾</div>
+      <div class="brand-name">Pixeza</div>
+    </div>
+
+    <h1 style="color: var(--accent-2);">Login Cancelled</h1>
+    <p class="subtitle">The authentication process with Google was interrupted or cancelled.</p>
+
+    <div class="upload-zone" style="border-color: rgba(255, 138, 92, 0.25); background: rgba(255, 138, 92, 0.05); color: var(--text-main);">
+      <p>If this was a mistake, you can easily try initiating the authentication flow again.</p>
+    </div>
+
+    <a href="{% url 'custom_login' %}" class="btn-primary" style="text-decoration: none; display: block; text-align: center; margin-top: 24px;">
+      Back to Login
+    </a>
+  </div>
+</body>
+</html>

@@ -1,0 +1,48 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Your History — Pixeza</title>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+  <div class="card app-shell">
+    <div class="topbar">
+      <div class="brand">
+        <div class="brand-icon">🐾</div>
+        <div class="brand-name">Pixeza</div>
+      </div>
+      <div class="profile">
+        {% if google_avatar %}
+          <img src="{{ google_avatar }}" class="profile-avatar" alt="Profile picture">
+        {% else %}
+          <div class="profile-initial">{{ google_name|first|upper }}</div>
+        {% endif %}
+        <span class="profile-name">{{ google_name }}</span>
+        <a href="{% url 'predict_image' %}" class="logout-link" style="margin-left:10px;">Detector</a>
+        <a href="{% url 'account_logout' %}" class="logout-link" style="margin-left:10px;">Log out</a>
+      </div>
+    </div>
+
+    <h1>Your Upload History</h1>
+    <p class="subtitle">Every photo you've checked, most recent first.</p>
+
+    {% if entries %}
+      <div class="history-grid">
+        {% for entry in entries %}
+          <div class="history-item">
+            <img src="{{ entry.image.url }}" alt="Uploaded photo">
+            <div class="history-meta">
+              <span class="history-result">{{ entry.result }}</span>
+              <span class="history-date">{{ entry.created_at|date:"M d, Y — H:i" }}</span>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <p class="subtitle">You haven't uploaded any photos yet.</p>
+    {% endif %}
+  </div>
+</body>
+</html>

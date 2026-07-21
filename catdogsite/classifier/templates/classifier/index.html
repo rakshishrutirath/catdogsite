@@ -1,0 +1,75 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Pixeza</title>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+  <div class="card app-shell">
+    <div class="topbar">
+      <div class="brand">
+        <div class="brand-icon">🐾</div>
+        <div class="brand-name">Pixeza</div>
+      </div>
+      <div class="profile">
+        {% if google_avatar %}
+        <img src="{{ google_avatar }}" class="profile-avatar" alt="Profile picture">
+        {% else %}
+        <div class="profile-initial">{{ google_name|first|upper }}</div>
+        {% endif %}
+        <span class="profile-name">{{ google_name }}</span>
+        <a href="{% url 'account_logout' %}" class="logout-link" style="margin-left:10px;">Log out</a>
+        <a href="{% url 'history' %}" class="logout-link" style="margin-left:10px;">History</a>
+      </div>
+    </div>
+
+    <h1>Cat or Dog?</h1>
+    <p class="subtitle">Upload a photo and we'll tell you instantly.</p>
+
+    <form method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+      <div class="upload-zone">
+        <input type="file" name="photo" id="photoInput" accept="image/*" required>
+        <p style="margin-top:10px;">JPG or PNG, any size</p>
+      </div>
+
+      <!-- this box is hidden until a file is picked -->
+      <div class="preview-wrap" id="previewWrap">
+        <img id="previewImg" src="" alt="Selected photo preview">
+        <div class="preview-filename" id="previewFilename"></div>
+      </div>
+
+      <button type="submit" class="btn-primary">Detect</button>
+    </form>
+
+    {% if result %}
+      <div class="result-box">{{ result }}</div>
+    {% endif %}
+  </div>
+
+  <script>
+    const photoInput = document.getElementById('photoInput');
+    const previewWrap = document.getElementById('previewWrap');
+    const previewImg = document.getElementById('previewImg');
+    const previewFilename = document.getElementById('previewFilename');
+
+    photoInput.addEventListener('change', function () {
+      const file = this.files[0];   // the picked file, if any
+      if (!file) {
+        previewWrap.style.display = 'none';
+        return;
+      }
+
+      const reader = new FileReader();  // reads the file's actual bytes in the browser
+      reader.onload = function (e) {
+        previewImg.src = e.target.result;      // this is the actual picture data
+        previewFilename.textContent = file.name;
+        previewWrap.style.display = 'block';   // reveal the preview box
+      };
+      reader.readAsDataURL(file);   // converts the image into something an <img> tag can show
+    });
+  </script>
+</body>
+</html>
