@@ -192,4 +192,15 @@ SOCIALACCOUNT_PROVIDERS = {
             'access_type': 'online',
         }
     }
-}
+} 
+# Automatically update the Site domain for production
+from django.contrib.sites.models import Site
+import sys
+if 'runserver' in sys.argv or 'gunicorn' in ''.join(sys.argv):
+    try:
+        site, created = Site.objects.get_or_create(id=SITE_ID)
+        site.domain = 'pixeza.onrender.com'
+        site.name = 'Pixeza'
+        site.save()
+    except Exception:
+        pass
