@@ -27,6 +27,8 @@ ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '127.0.0.1,localhost').split(','
 # Safely split CSRF_TRUSTED_ORIGINS only if it exists
 env_csrf = os.environ.get('CSRF_TRUSTED_ORIGINS', '')
 CSRF_TRUSTED_ORIGINS = [origin.strip() for origin in env_csrf.split(',')] if env_csrf else []
+
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -134,18 +136,6 @@ STORAGES = {
 
 SITE_ID = 1
 
-# Automatically update the Site domain for production
-from django.contrib.sites.models import Site
-import sys
-if 'runserver' in sys.argv or 'gunicorn' in ''.join(sys.argv):
-    try:
-        site, created = Site.objects.get_or_create(id=SITE_ID)
-        site.domain = 'pixeza.onrender.com'
-        site.name = 'Pixeza'
-        site.save()
-    except Exception:
-        pass
-    
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
     'allauth.account.auth_backends.AuthenticationBackend',
@@ -162,26 +152,11 @@ ACCOUNT_SIGNUP_FIELDS = ['email*', 'password1*', 'password2*']
 ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_EMAIL_VERIFICATION = 'none' 
 
-import os
-
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
         'APP': {
             'client_id': os.environ.get('GOOGLE_CLIENT_ID'),
             'secret': os.environ.get('GOOGLE_CLIENT_SECRET'),
-            'key': ''
-        },
-        'SCOPE': ['profile', 'email'],
-        'AUTH_PARAMS': {'access_type': 'online'},
-        'OAUTH_PKCE_ENABLED': True,
-    }
-}
-
-SOCIALACCOUNT_PROVIDERS = {
-    'google': {
-        'APP': {
-            'client_id': 'PASTE_YOUR_ACTUAL_CLIENT_ID_HERE.apps.googleusercontent.com',
-            'secret': 'PASTE_YOUR_ACTUAL_CLIENT_SECRET_HERE',
             'key': ''
         },
         'SCOPE': [
@@ -190,17 +165,7 @@ SOCIALACCOUNT_PROVIDERS = {
         ],
         'AUTH_PARAMS': {
             'access_type': 'online',
-        }
+        },
+        'OAUTH_PKCE_ENABLED': True,
     }
-} 
-# Automatically update the Site domain for production
-from django.contrib.sites.models import Site
-import sys
-if 'runserver' in sys.argv or 'gunicorn' in ''.join(sys.argv):
-    try:
-        site, created = Site.objects.get_or_create(id=SITE_ID)
-        site.domain = 'pixeza.onrender.com'
-        site.name = 'Pixeza'
-        site.save()
-    except Exception:
-        pass
+}
