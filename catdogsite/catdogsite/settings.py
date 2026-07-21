@@ -20,7 +20,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 SECRET_KEY = os.environ.get('SECRET_KEY', 'dev-only-insecure-key-change-me')
 
-DEBUG = os.environ.get('DEBUG', 'False') == 'True'
+# DEBUG = os.environ.get('DEBUG', 'False') == 'True'
+DEBUG = True
 
 ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '127.0.0.1,localhost').split(',')
 
