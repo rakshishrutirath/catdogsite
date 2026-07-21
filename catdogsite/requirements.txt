@@ -13,7 +13,7 @@ numpy==1.26.4
 oauthlib==3.2.2
 opencv-python-headless==4.9.0.80
 packaging==24.1
-pillow==10.3.0
+pillow>=11.0.0
 pycparser==2.22
 PyJWT==2.8.0
 requests==2.31.0
