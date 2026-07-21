@@ -134,6 +134,18 @@ STORAGES = {
 
 SITE_ID = 1
 
+# Automatically update the Site domain for production
+from django.contrib.sites.models import Site
+import sys
+if 'runserver' in sys.argv or 'gunicorn' in ''.join(sys.argv):
+    try:
+        site, created = Site.objects.get_or_create(id=SITE_ID)
+        site.domain = 'pixeza.onrender.com'
+        site.name = 'Pixeza'
+        site.save()
+    except Exception:
+        pass
+    
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
     'allauth.account.auth_backends.AuthenticationBackend',
@@ -150,10 +162,34 @@ ACCOUNT_SIGNUP_FIELDS = ['email*', 'password1*', 'password2*']
 ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_EMAIL_VERIFICATION = 'none' 
 
+import os
+
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
+        'APP': {
+            'client_id': os.environ.get('GOOGLE_CLIENT_ID'),
+            'secret': os.environ.get('GOOGLE_CLIENT_SECRET'),
+            'key': ''
+        },
         'SCOPE': ['profile', 'email'],
         'AUTH_PARAMS': {'access_type': 'online'},
         'OAUTH_PKCE_ENABLED': True,
+    }
+}
+
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'APP': {
+            'client_id': 'PASTE_YOUR_ACTUAL_CLIENT_ID_HERE.apps.googleusercontent.com',
+            'secret': 'PASTE_YOUR_ACTUAL_CLIENT_SECRET_HERE',
+            'key': ''
+        },
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        }
     }
 }
